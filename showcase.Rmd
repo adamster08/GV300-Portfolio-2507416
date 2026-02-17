@@ -1,0 +1,25 @@
+---
+title: "showcase"
+output: html_document
+---
+
+---
+title: "GV300 Showcase"
+description: "A short showcase of one data visualisation and what it tells us."
+output: distill::distill_article
+---
+
+## What this is
+This page showcases one piece of work from GV300. I present a visualisation, the code used to generate it, and a short interpretation in plain English.
+
+## The question
+State the question in one sentence.  
+
+
+## The data
+Briefly describe the dataset (2–3 sentences). Include what the key variables mean.
+
+## Visualisation
+```{r}
+# Replace this with your actual GV300 code
+
