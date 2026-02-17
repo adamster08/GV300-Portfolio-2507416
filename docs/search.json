@@ -1,0 +1,21 @@
+{
+  "articles": [
+    {
+      "path": "about.html",
+      "title": "About this site",
+      "description": "Some additional details about the website",
+      "author": [],
+      "contents": "\r\n\r\n\r\n\r\n",
+      "last_modified": "2026-02-17T04:46:49+00:00"
+    },
+    {
+      "path": "index.html",
+      "title": "GV300 Portfolio - 2507416",
+      "description": "Welcome to the website. I hope you enjoy it!\n",
+      "author": [],
+      "contents": "\r\n\r\n\r\n\r\n",
+      "last_modified": "2026-02-17T04:46:49+00:00"
+    }
+  ],
+  "collections": []
+}

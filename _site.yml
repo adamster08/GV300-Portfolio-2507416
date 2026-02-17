@@ -1,0 +1,12 @@
+name: "GV300-Website"
+title: "GV300 Portfolio - 2507416"
+description: |
+  GV300 Portfolio - 2507416
+output_dir: "docs"
+navbar:
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+output: distill::distill_article
