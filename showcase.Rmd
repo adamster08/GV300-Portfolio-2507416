@@ -1,25 +1,92 @@
 ---
-title: "showcase"
-output: html_document
----
-
----
-title: "GV300 Showcase"
-description: "A short showcase of one data visualisation and what it tells us."
+title: "My Showcase"
+description: "A short showcase of one my data visualisations and what it tells us."
 output: distill::distill_article
 ---
 
-## What this is
-This page showcases one piece of work from GV300. I present a visualisation, the code used to generate it, and a short interpretation in plain English.
 
-## The question
-State the question in one sentence.  
+### What this is
+This page showcases pieces of work from GV300. I present a visualisation, the code used to generate it, and my interpretation.
 
 
-## The data
-Briefly describe the dataset (2–3 sentences). Include what the key variables mean.
+### The question
+From GV300 Homework 3: This analysis examines whether an issue-focused homepage increases the probability that visitors sign up to support a political party.
 
-## Visualisation
-```{r}
-# Replace this with your actual GV300 code
 
+### The data
+I use simulated A/B test data in which website visitors are randomly assigned to either a standard homepage (control) or an issue-focused version (treatment). The outcome variable, support_signup, equals 1 if the visitor signs up and 0 otherwise.
+
+
+### Visualisation
+```{r plot-signup-rates, fig.width=7, fig.height=4}
+library(ggplot2)
+library(dplyr)
+library(scales)
+
+# Setup
+# Simulate the A/B test data (from Assignment 3)
+n <- 1500
+treatment <- rbinom(n = n, size = 1, prob = 0.5)
+
+p_control <- 0.12
+p_treated <- 0.17
+
+Y0 <- rbinom(n = n, size = 1, prob = p_control)
+Y1 <- rbinom(n = n, size = 1, prob = p_treated)
+
+support_signup <- ifelse(treatment == 1, Y1, Y0)
+
+party_ab <- data.frame(
+  visitor_id = 1:n,
+  treatment = treatment,
+  support_signup = support_signup
+)
+
+# --- Group means + ATE ---
+means_df <- party_ab %>%
+  mutate(treatment = ifelse(treatment == 0,
+                            "Control homepage",
+                            "Issue-focused homepage")) %>%
+  group_by(treatment) %>%
+  summarise(mean_signup = mean(support_signup), .groups = "drop")
+
+mean_control <- means_df$mean_signup[means_df$treatment == "Control homepage"]
+mean_treated <- means_df$mean_signup[means_df$treatment == "Issue-focused homepage"]
+ate_hat <- mean_treated - mean_control
+
+# Print key numbers
+cat("Control signup rate:", percent(mean_control, accuracy = 0.1), "\n")
+cat("Treatment signup rate:", percent(mean_treated, accuracy = 0.1), "\n")
+cat("ATE:", round(ate_hat * 100, 2), "percentage points\n")
+
+
+# Plot
+ggplot(means_df, aes(x = treatment, y = mean_signup, fill = treatment)) +
+geom_col(width = 0.6) +
+geom_text(
+aes(label = paste0(round(mean_signup * 100, 1), "%")),
+vjust = -0.5
+) +
+scale_y_continuous(limits = c(0, 0.25), expand = expansion(mult = c(0, 0.05))) +
+scale_fill_manual(values = c("Control homepage" = "gray70",
+"Issue-focused homepage" = "steelblue")) +
+labs(
+x = NULL,
+y = "Signup rate",
+title = "Supporter signup rate by homepage version"
+) +
+theme_minimal() +
+theme(legend.position = "none")
+
+```
+
+
+### Interpretation
+The figure shows that visitors exposed to the issue-focused homepage were more likely to sign up than those who saw the standard version. The signup rate increases from roughly 11.9% in the control group to about 16.0% in the treatment group, implying an average treatment effect of around 4.2 percentage points. Because visitors were randomly assigned to homepage versions, this difference can be interpreted as the causal effect of the issue-focused messaging. Substantively, the results suggest that emphasising a salient political issue can modestly improve supporter conversion on the party’s website.
+
+
+### Limitation
+However, the data are simulated and therefore may not fully capture the complexity of real-world campaign behaviour. In practice, user responses to political messaging may depend on many additional factors such as prior partisanship, message saturation, or strategic targeting. The external validity of the findings should therefore be interpreted with caution.
+
+The full code for this analysis is available on my GitHub repository:
+https://github.com/adamster08/GV300-Portfolio-2507416

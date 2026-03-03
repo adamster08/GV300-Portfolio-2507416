@@ -1,18 +1,9 @@
 ---
-title: "GV300 Portfolio - 2507416"
-description: |
-  Welcome to the website. I hope you enjoy it!
-site: distill::distill_website
+title: "GV300 Assignment 4"
+description: "My Portfolio"
+output: distill::distill_article
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+Hi, I’m Adam, a Politics and International Relations student at the University of Essex.
 
-# Learn more about creating websites with Distill at:
-# https://rstudio.github.io/distill/website.html
-
-# Learn more about publishing to GitHub Pages at:
-# https://rstudio.github.io/distill/publish_website.html#github-pages
-
-```
-
+This site presents a short GV300 portfolio project. The Showcase tab contains an A/B test analysis examining whether issue-focused political messaging increases supporter signups.
